@@ -30,7 +30,7 @@ def tadd(bot, update):
         call(["curl", "https://api.telegram.org/bot + token +/setChatTitle?chat_id=-1001139528938&title=" + tadd + "%20-%20" + tadd2 + "%20-%20" + s])
     else:
         call(["curl", "https://api.telegram.org/bot + token + /setChatTitle?chat_id=-1001139528938&title=" + tadd + "%20-%20" + tadd2])
-    #urllib.parse.quote_plus("https://api.telegram.org/bot433014046:AAHD1X1SDlkcdVpxZpvFK0BpEJiwOI5vY8o/setChatTitle?chat_id=-1001139528938&title"+ tadd + "%20-%20" + tadd2)
+
 def main():
     TOKEN = 'token'
     updater = Updater(TOKEN)

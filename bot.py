@@ -1,7 +1,6 @@
 rom telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
 import os
-import json
 from subprocess import call
 #logging.basicConfig(level=logging.DEBUG,
                     #format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

@@ -16,5 +16,8 @@ WorkingDirectory=/var/python
 ExecStart=/usr/bin/python3 bot.py
 User=eatradish
 restart=always
+
+# systemctl enable bot
+# systemctl start bot
 ```
 

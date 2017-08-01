@@ -118,7 +118,7 @@ def tcat(bot, update):
         return
     bot.sendMessage(chat_id = update.message.chat_id, text = update.message.chat.title)
 def gum(bot, update):
-    if update.message.from_user['username'] == 'Gummary':
+    if update.message.from_user['username'] == '(不洗澡那个)`:
         update.message.reply_text("这个人的味道好奇怪的 QAQ")
 def miaow(bot, update):
     lst = list(update.message.text)

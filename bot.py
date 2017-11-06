@@ -48,7 +48,7 @@ def tclear(bot, update):
     if update.message.chat.id != -1001125312504:
         return
     else:
-        tclear()
+        bot_feature.tclear()
 
 def test(bot, update):
     bot.sendMessage(chat_id = update.message.chat_id, text = "_(:3」∠)_")

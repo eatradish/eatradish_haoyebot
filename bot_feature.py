@@ -42,8 +42,14 @@ def bmi(lst):
     return bmi
 
 def miaow(msg):
+    if len(msg) != 3:
+        return
     dic = {'q': 'p', 'p': 'q', 'd': 'b', 'b': 'd'}
     run = ['a', 'w', 'u']
+    if msg[1] not in run:
+        return
+    if msg[0] not in dic.keys() or msg[2] not in dic.keys():
+        return
     lst = list(msg)
     num = 0
     for i in range(len(lst)):

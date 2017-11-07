@@ -2,6 +2,7 @@ import requests
 import json
 import os
 import random
+import re
 
 def tadd(msg, title_info):
     url = 'https://api.telegram.org/botTOKEN/setChatTitle'
@@ -42,31 +43,19 @@ def bmi(lst):
     return bmi
 
 def miaow(msg):
-    if len(msg) != 3:
-        return
     dic = {'q': 'p', 'p': 'q', 'd': 'b', 'b': 'd'}
     run = ['a', 'w', 'u']
-    if msg[1] not in run:
+    re_1 = re.compile(r"^([qpbd]+[wm]+[qpbd]+).*|")
+    re_2 = re.compile(r"^.*([qpbd]+[wm]+[qpbd])|")
+    if re_1.match(msg).groups()[0] != None or re_2.match(msg).groups()[0] != None:
+        lst = list(msg)
+    else:
         return
-    if msg[0] not in dic.keys() or msg[2] not in dic.keys():
-        return
-    lst = list(msg)
-    num = 0
     for i in range(len(lst)):
         if lst[i] in dic.keys():
             lst[i] = dic[lst[i]]
     lst = list(filter(lambda x: x in dic.keys() or x in run, lst))
-    while num < len(lst) - 1:
-        if lst[num] in dic.keys() and lst[num + 1] not in run:
-            lst.pop(num)
-        if lst[num] not in dic.keys() and lst[num + 1] not in dic.keys():
-            return None
-        else:
-            num += 1
-    if lst[0] not in dic.keys() or lst[-1] not in dic.keys():
-        return None
-    else:
-        return "".join(lst)
+    return "".join(lst)
 
 def whois(msg):
     return os.popen("whois " + msg).read()

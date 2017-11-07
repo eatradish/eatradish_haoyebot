@@ -45,8 +45,8 @@ def bmi(lst):
 def miaow(msg):
     dic = {'q': 'p', 'p': 'q', 'd': 'b', 'b': 'd'}
     run = ['a', 'w', 'u']
-    re_1 = re.compile(r"^([qpbd]+[wm]+[qpbd]+).*|")
-    re_2 = re.compile(r"^.*([qpbd]+[wm]+[qpbd])|")
+    re_1 = re.compile(r"^([qpbd]+[wau]+[qpbd]+).*|")
+    re_2 = re.compile(r"^.*([qpbd]+[wau]+[qpbd])|")
     if re_1.match(msg).groups()[0] != None or re_2.match(msg).groups()[0] != None:
         lst = list(msg)
     else:

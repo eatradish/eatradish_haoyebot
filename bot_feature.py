@@ -6,14 +6,14 @@ import random
 def tadd(msg, title_info):
     url = 'https://api.telegram.org/botTOKEN/setChatTitle'
     d = {'chat_id':'-1001125312504', 'title':'摸鱼'}
-    if len(title_info) == d['title']:
-        d['title'] = d['title'] + '-' + msg
+    if title_info == d['title']:
+        d['title'] = d['title'] + ' - ' + msg
     else:
         d['title'] = d['title'] + ' - ' + msg + ' - ' + title_info[4:]
     requests.get(url, data = d)
 
 def tclear():
-    d = {'chat_id':'-1001125312504', 'title':'摸鱼'}
+    d = {'chat_id': '-1001125312504', 'title': '摸鱼'}
     url = 'https://api.telegram.org/botTOKEN/setChatTitle'
     requests.get(url, data = d)
 
@@ -53,9 +53,14 @@ def miaow(msg):
     while num < len(lst) - 1:
         if lst[num] in dic.keys() and lst[num + 1] not in run:
             lst.pop(num)
+        if lst[num] not in dic.keys() and lst[num + 1] not in dic.keys():
+            return None
         else:
             num += 1
-    return "".join(lst)
+    if lst[0] not in dic.keys() or lst[-1] not in dic.keys():
+        return None
+    else:
+        return "".join(lst)
 
 def whois(msg):
     return os.popen("whois " + msg).read()

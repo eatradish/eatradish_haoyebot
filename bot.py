@@ -17,8 +17,10 @@ def msg_to_arg(msg):
     return msg
 
 def replace_rub_str(msg):
-    if '@eatradishhaotebot' in msg:
-        return msg.replace('@eatradishhaotebot', '')
+    lst = msg.split()
+    if '@eatradishhaotebot' in lst[0]:
+        lst[0] = lst[0].replace('@eatradishhaotebot', '')
+        return ' '.join(lst)
     else:
         return msg
 
@@ -61,7 +63,8 @@ def tlen(bot, update):
 
 def miaow(bot, update):
     msg = bot_feature.miaow(update.message.text)
-    bot.sendMessage(chat_id = update.message.chat_id, text = msg)
+    if msg != None:
+        bot.sendMessage(chat_id = update.message.chat_id, text = msg)
 
 def bmi(bot, update):
     msg = msg_to_arg(update.message.text)

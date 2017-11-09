@@ -55,6 +55,8 @@ def miaow(msg):
     lst = list(filter(lambda x: x in dic.keys() or x in run, lst))
     while lst[0] in run:
         lst = lst[1:]
+    while lst[-1] in run:
+        lst = lst[:-1]
     return "".join(lst)
 
 def whois(msg):

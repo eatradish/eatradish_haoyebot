@@ -64,7 +64,8 @@ def tlen(bot, update):
 def miaow(bot, update):
     msg = bot_feature.miaow(update.message.text)
     if '耶' in update.message.text:
-        bot.sendMessage(chat_id = update.message.chat_id, text = "好耶")
+        num = len([i for i in update.message.text if i == '耶'])
+        bot.sendMessage(chat_id = update.message.chat_id, text = "好耶" * num)
     if '喵' in update.message.text:
         num = len([i for i in update.message.text if i == '喵'])
         bot.sendMessage(chat_id = update.message.chat_id, text = "喵" * num)

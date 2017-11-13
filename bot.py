@@ -73,7 +73,7 @@ def bmi(bot, update):
         bot.sendMessage(chat_id = update.message.chat_id, text = "用法: /bmi kg/cm or kg/m")
         return
     result = bot_feature.bmi(lst)
-    bot.sendMessage(chat_id = update.message.chat_id, text = result)
+    update.message.reply_text(result)
 
 def kuaidi(bot, update):
     msg = msg_to_arg(update.message.text)
@@ -81,7 +81,7 @@ def kuaidi(bot, update):
         bot.sendMessage(chat_id = update.message.chat_id, text = "用法: /kuaidi + 运单号")
         return
     msg = bot_feature.kuaidi(msg)
-    bot.sendMessage(chat_id = update.message.chat_id, text = msg)
+    update.message.reply_text(msg)
 
 def pixiv(bot, update):
     msg = bot_feature.pixiv()
@@ -93,7 +93,7 @@ def couplet(bot, update):
         bot.sendMessage(chat_id = update.message.chat_id, text = "用法: /couplet + 被对联")
         return
     msg = bot_feature.couplet(msg)
-    bot.sendMessage(chat_id = update.message.chat_id, text = msg)
+    update.message.reply_text(msg)
 
 def cur(bot, update):
     msg = msg_to_arg(update.message.text)
@@ -128,6 +128,7 @@ if __name__ == '__main__':
     dp.add_handler(CommandHandler("tlen", tlen))
     dp.add_handler(CommandHandler("kuaidi", kuaidi))
     dp.add_handler(MessageHandler(Filters.text, miaow))
+    #dp.add_handler(MessageHandler(Filters.text, moe))
     #dp.add_handler(MessageHandler(Filters.text, gum))
     #dp.add_handler(MessageHandler(Filters.text, qaq))
     dp.add_handler(CommandHandler("tcat", tcat))

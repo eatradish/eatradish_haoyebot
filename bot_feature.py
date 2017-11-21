@@ -5,7 +5,7 @@ import random
 import re
 
 def tadd(msg, title_info):
-    url = 'https://api.telegram.org/botTOKEN/setChatTitle'
+    url = 'https://api.telegram.org/bot433014046:AAFRHR9mjFWfWJ_3ec7Ai5ZGtI2_kFbhrPM/setChatTitle'
     d = {'chat_id':'-1001125312504', 'title':'摸鱼'}
     if title_info == d['title']:
         d['title'] = d['title'] + ' - ' + msg
@@ -15,7 +15,7 @@ def tadd(msg, title_info):
 
 def tclear():
     d = {'chat_id': '-1001125312504', 'title': '摸鱼'}
-    url = 'https://api.telegram.org/botTOKEN/setChatTitle'
+    url = 'https://api.telegram.org/bot433014046:AAFRHR9mjFWfWJ_3ec7Ai5ZGtI2_kFbhrPM/setChatTitle'
     requests.get(url, data = d)
 
 def bmi(lst):
@@ -32,7 +32,7 @@ def bmi(lst):
         if 'm' in i and 'c' not in i:
             m = i
     if kg == '':
-        return "用法: /bmi kg/cm or kg/m"
+        return "用法: /bmi [kg][space][cm] or [kg][space][m]"
     kg = float(kg.replace('kg', ''))
     if m != '':
         m = float(m.replace('m', ''))
@@ -47,6 +47,8 @@ def miaow(msg):
     run = ['a', 'w', 'u']
     if re.search(r'[qpbd]+[wau]+[qpbd]', msg) != None:
         lst = list(msg)
+    elif msg == "ping":
+        return "pong"
     else:
         return
     for i in range(len(lst)):
@@ -78,7 +80,7 @@ def kuaidi(msg):
             pass
         msg = '\n'.join(msgs)
     except:
-        msg = '输入错误或订单号不存在'
+        msg = '输入错误或订单号没有信息'
     return msg
 
 def pixiv():

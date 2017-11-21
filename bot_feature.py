@@ -47,19 +47,19 @@ def miaow(msg):
     run = ['a', 'w', 'u']
     if re.search(r'[qpbd]+[wau]+[qpbd]', msg) != None:
         lst = list(msg)
+        for i in range(len(lst)):
+            if lst[i] in dic.keys():
+                lst[i] = dic[lst[i]]
+        lst = list(filter(lambda x: x in dic.keys() or x in run, lst))
+        while lst[0] in run:
+            lst = lst[1:]
+        while lst[-1] in run:
+            lst = lst[:-1]
+        return "".join(lst)
     elif msg == "ping":
         return "pong"
     else:
         return
-    for i in range(len(lst)):
-        if lst[i] in dic.keys():
-            lst[i] = dic[lst[i]]
-    lst = list(filter(lambda x: x in dic.keys() or x in run, lst))
-    while lst[0] in run:
-        lst = lst[1:]
-    while lst[-1] in run:
-        lst = lst[:-1]
-    return "".join(lst)
 
 def whois(msg):
     return os.popen("whois " + msg).read()

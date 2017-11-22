@@ -81,9 +81,10 @@ def kuaidi(bot, update):
     if msg == '':
         bot.sendMessage(chat_id = update.message.chat_id, text = "用法: /kuaidi + 运单号")
         return
-    if type(int(lst[0])) is int:
+    try:
+        int(lst[0])
         msg = bot_feature.kuaidi(lst[0])
-    else:
+    except:
         typ = lst[0]
         num = lst[1]
         msg = bot_feature.kuaidi(num, typ)

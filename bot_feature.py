@@ -5,7 +5,7 @@ import random
 import re
 
 def tadd(msg, title_info):
-    url = 'https://api.telegram.org/bot433014046:AAFRHR9mjFWfWJ_3ec7Ai5ZGtI2_kFbhrPM/setChatTitle'
+    url = 'https://api.telegram.org/botTOKEN/setChatTitle'
     d = {'chat_id':'-1001125312504', 'title':'摸鱼'}
     if title_info == d['title']:
         d['title'] = d['title'] + ' - ' + msg
@@ -15,7 +15,7 @@ def tadd(msg, title_info):
 
 def tclear():
     d = {'chat_id': '-1001125312504', 'title': '摸鱼'}
-    url = 'https://api.telegram.org/bot433014046:AAFRHR9mjFWfWJ_3ec7Ai5ZGtI2_kFbhrPM/setChatTitle'
+    url = 'https://api.telegram.org/botTOKEN/setChatTitle'
     requests.get(url, data = d)
 
 def bmi(lst):
@@ -64,15 +64,21 @@ def miaow(msg):
 def whois(msg):
     return os.popen("whois " + msg).read()
 
-def kuaidi(msg):
-    comCode_url = 'https://www.kuaidi100.com/autonumber/autoComNum?text=' + msg
-    headers = {'Origin': "https://www.kuaidi100.com", 'Accept-Encoding': "gzip, deflate, br", 'Accept-Language': "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4,ja;q=0.2,zh-TW;q=0.2,uz;q=0.2,vi;q=0.2", "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36"}
+def kuaidi(msg, typ = None):
+    headers = {'Origin': "https://www.kuaidi100.com", 'Accept-Encoding': "gzip, deflate, br", 'Acc    ept-Language': "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4,ja;q=0.2,zh-TW;q=0.2,uz;q=0.2,vi;q=0.2", "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36"}
+    if typ is None:
+        comCode_url = 'https://www.kuaidi100.com/autonumber/autoComNum?text=' + msg
+        try:
+            c_r = requests.post(comCode_url, headers = headers)
+            c_r = json.loads(c_r.text)
+            comCode = c_r['auto'][0]['comCode']
+        except:
+            msg = '输入错误或订单号没有信息'
+    else:
+        comCode = typ
     try:
-        c_r = requests.post(comCode_url, headers = headers)
-        c_r = json.loads(c_r.text)
-        comCode = c_r['auto'][0]['comCode']
         get_url = 'https://www.kuaidi100.com/query?type=' + comCode + '&postid=' + msg + '&id=1&valicode=&temp=0.21830105590577142'
-        g_r = requests.post(get_url, headers = headers)
+        g_r = requests.get(get_url, headers = headers)
         g_r = json.loads(g_r.text)
         msgs = []
         for i in g_r['data']:

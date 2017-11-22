@@ -70,17 +70,23 @@ def bmi(bot, update):
     msg = msg_to_arg(update.message.text)
     lst = args_to_list(msg)
     if msg == '':
-        bot.sendMessage(chat_id = update.message.chat_id, text = "用法: /bmi kg/cm or kg/m")
+        bot.sendMessage(chat_id = update.message.chat_id, text = "用法: /bmi [kg][space][cm] or [kg][space][m]")
         return
     result = bot_feature.bmi(lst)
     update.message.reply_text(result)
 
 def kuaidi(bot, update):
     msg = msg_to_arg(update.message.text)
+    lst = args_to_list(msg)
     if msg == '':
         bot.sendMessage(chat_id = update.message.chat_id, text = "用法: /kuaidi + 运单号")
         return
-    msg = bot_feature.kuaidi(msg)
+    if type(int(lst[0])) is int:
+        msg = bot_feature.kuaidi(lst[0])
+    else:
+        typ = lst[0]
+        num = lst[1]
+        msg = bot_feature.kuaidi(num, typ)
     update.message.reply_text(msg)
 
 def pixiv(bot, update):

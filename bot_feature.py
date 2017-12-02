@@ -3,24 +3,24 @@ import json
 import os
 import random
 import re
+import express
+
+moeFish_url = 'https://api.telegram.org/botTOKEN/setChatTitle'
+moeFish_dict = {'chat_id':'-1001125312504', 'title':'摸鱼'}
 
 def tadd(msg, title_info):
-    url = 'https://api.telegram.org/botTOKEN/setChatTitle'
-    d = {'chat_id':'-1001125312504', 'title':'摸鱼'}
-    if title_info == d['title']:
-        d['title'] = d['title'] + ' - ' + msg
+    if title_info == moe_Fish_dict['title']:
+        moeFish_dict['title'] = moeFish_dict['title'] + ' - ' + msg
     else:
-        d['title'] = d['title'] + ' - ' + msg + ' - ' + title_info[4:]
-    requests.get(url, data = d)
+        moeFish_dict['title'] = moeFish_dict['title'] + ' - ' + msg + ' - ' + title_info[4:]
+    requests.get(url = moeFish_url, data = moeFish_dict)
 
 def tclear():
-    d = {'chat_id': '-1001125312504', 'title': '摸鱼'}
-    url = 'https://api.telegram.org/botTOKEN/setChatTitle'
-    requests.get(url, data = d)
+    requests.get(url = moeFish_url, data = moeFish_dict)
 
 def bmi(lst):
     if len(lst) != 2:
-        return "用法: /bmi kg/cm or kg/m"
+        return "Syntax: /bmi <Weight in kilogram>kg {<Height in meter>m | <Height in centimeter>cm}"
     kg = ''
     cm = ''
     m = ''
@@ -32,7 +32,8 @@ def bmi(lst):
         if 'm' in i and 'c' not in i:
             m = i
     if kg == '':
-        return "用法: /bmi [kg][space][cm] or [kg][space][m]"
+        return "Syntax: /bmi <Weight in kilogram>kg {<Height in meter>m |  <Height in centimeter>cm}"
+
     kg = float(kg.replace('kg', ''))
     if m != '':
         m = float(m.replace('m', ''))
@@ -46,16 +47,24 @@ def miaow(msg):
     dic = {'q': 'p', 'p': 'q', 'd': 'b', 'b': 'd'}
     run = ['a', 'w', 'u']
     if re.search(r'[qpbd]+[wau]+[qpbd]', msg) != None:
-        lst = list(msg)
-        for i in range(len(lst)):
-            if lst[i] in dic.keys():
-                lst[i] = dic[lst[i]]
-        lst = list(filter(lambda x: x in dic.keys() or x in run, lst))
-        while lst[0] in run:
-            lst = lst[1:]
-        while lst[-1] in run:
-            lst = lst[:-1]
-        return "".join(lst)
+        s = re.findall(r'[A-Za-z]', msg)
+        s = "".join(s)
+        f = open('words_dictionary.json', 'r')
+        d = json.load(f)
+        f.close()
+        if s in d.keys():
+            return
+        else:
+            lst = list(msg)
+            for i in range(len(lst)):
+                if lst[i] in dic.keys():
+                    lst[i] = dic[lst[i]]
+            lst = list(filter(lambda x: x in dic.keys() or x in run, lst))
+            while lst[0] in run:
+                lst = lst[1:]
+            while lst[-1] in run:
+                lst = lst[:-1]
+            return "".join(lst)
     elif msg == "ping":
         return "pong"
     else:
@@ -64,30 +73,10 @@ def miaow(msg):
 def whois(msg):
     return os.popen("whois " + msg).read()
 
-def kuaidi(msg, typ = None):
-    headers = {'Origin': "https://www.kuaidi100.com", 'Accept-Encoding': "gzip, deflate, br", 'Acc    ept-Language': "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4,ja;q=0.2,zh-TW;q=0.2,uz;q=0.2,vi;q=0.2", "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36"}
-    if typ is None:
-        comCode_url = 'https://www.kuaidi100.com/autonumber/autoComNum?text=' + msg
-        try:
-            c_r = requests.post(comCode_url, headers = headers)
-            c_r = json.loads(c_r.text)
-            comCode = c_r['auto'][0]['comCode']
-        except:
-            msg = '输入错误或订单号没有信息'
-    else:
-        comCode = typ
-    try:
-        get_url = 'https://www.kuaidi100.com/query?type=' + comCode + '&postid=' + msg + '&id=1&valicode=&temp=0.21830105590577142'
-        g_r = requests.get(get_url, headers = headers)
-        g_r = json.loads(g_r.text)
-        msgs = []
-        for i in g_r['data']:
-            msgs.append('%(time)s %(context)s' % i)
-            pass
-        msg = '\n'.join(msgs)
-    except:
-        msg = '输入错误或订单号没有信息'
-    return msg
+def kuaidi(msg):
+    if type(msg) is not int:
+        msg = int(msg)
+    return express.tracking(msg)
 
 def pixiv():
     url = 'https://public-api.secure.pixiv.net/v1/ranking/all?image_sizes=px_128x128%2Cpx_480mw%2Clarge&include_stats=true&page=1&profile_image_sizes=px_170x170%2Cpx_50x50&mode=daily&include_sanity_level=true&per_page=50'
@@ -119,6 +108,18 @@ def cur(lst):
         return msg
     except:
         return
+
+def guess():
+    d = None
+    with open('google-10000-english-usa.json', 'r') as f:
+        d = json.load(f)
+    return '你现在适宜 ' + random.choice(list(d.items()))[0] + ',  不适宜 ' + random.choice(list(d.items()))[0]
+
+def decided(lst):
+    if len(list(set(lst))) == 1:
+        return '不' + lst[0]
+    else:
+        return lst[random.randint(0, len(lst) - 1)]
 
 
 

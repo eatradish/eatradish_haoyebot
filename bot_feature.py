@@ -6,6 +6,7 @@ import re
 import express
 import shlex
 import urllib.parse
+import Netease
 
 moeFish_url = 'https://api.telegram.org/botTOKEN/setChatTitle'
 moeFish_dict = {'chat_id':'-1001125312504', 'title':'摸鱼'}
@@ -85,6 +86,13 @@ def miaow(msg):
         artists = [a['name'] for a in [b for b in j['songs'][0]['artists']]]
         msgs.append(", ".join(artists))
         msgs.append(j['songs'][0]['album']['blurPicUrl'])
+        msgs.append("\n")
+        msgs.append("-")
+        msgs.append("\n")
+        ids = [id]
+        print(Netease.songs_detail_new_api(ids)[0])
+        msgs.append('320K:' + Netease.songs_detail_new_api(ids)[0]['url'])
+        print(msgs)
         return "\n".join(msgs)
     else:
         return

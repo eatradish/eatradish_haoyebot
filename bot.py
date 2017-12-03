@@ -8,7 +8,6 @@ import shlex
 #format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 TOKEN = 'TOKEN'
-
 def args_to_list(msg):
     return shlex.split(msg)
 
@@ -64,6 +63,7 @@ def tlen(bot, update):
 
 def miaow(bot, update):
     msg = bot_feature.miaow(update.message.text)
+    print('123')
     if msg != None:
         bot.sendMessage(chat_id = update.message.chat_id, text = msg)
 
@@ -121,7 +121,7 @@ def decided(bot, update):
     lst = args_to_list(msg)
     print(lst)
     if len(lst) == 0 or len(lst) == 1:
-        msg = '用法: /decided [选项 1][选项 2][选项 3]...'
+        msg = '用法: /decided "选项 1""选项 2""选项 3"...'
     else:
         msg = bot_feature.decided(lst)
     update.message.reply_text(msg)

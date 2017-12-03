@@ -4,6 +4,8 @@ import os
 import random
 import re
 import express
+import shlex
+import urllib.parse
 
 moeFish_url = 'https://api.telegram.org/botTOKEN/setChatTitle'
 moeFish_dict = {'chat_id':'-1001125312504', 'title':'摸鱼'}
@@ -67,6 +69,23 @@ def miaow(msg):
             return "".join(lst)
     elif msg == "ping":
         return "pong"
+    elif "music.163.com/song" in msg:
+        r = re.compile(r'(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))')
+        url_list = r.findall(msg)
+        lst = list(filter(lambda x: 'music.163.com/song' in x, [i[0] for i in url_list]))
+        s = "".join(lst)
+        temp = urllib.parse.urlsplit(s)
+        id = temp.path.replace('/song/', '')
+        url = 'http://music.163.com/api/song/detail?ids=[' + id + ']'
+        req = requests.get(url)
+        j = json.loads(req.text)
+        msgs = []
+        msgs.append(j['songs'][0]['name'])
+        msgs.append(j['songs'][0]['album']['name'])
+        artists = [a['name'] for a in [b for b in j['songs'][0]['artists']]]
+        msgs.append(", ".join(artists))
+        msgs.append(j['songs'][0]['album']['blurPicUrl'])
+        return "\n".join(msgs)
     else:
         return
 

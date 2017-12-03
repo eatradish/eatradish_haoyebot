@@ -27,10 +27,10 @@ def tracking(number,retry=0):
         if(retry>=5):
             return "查询失败!错误:-5"
         elif(track['status']=='0'):
-            timeArray = time.localtime(int(track['data']['info']['context'][0]['time']))
-            otherStyleTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
             lst = []
             for i in range(len(track['data']['info']['context']) - 1):
+                timeArray = time.localtime(int(track['data']['info']['context'][i]['time']))
+                otherStyleTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
                 lst.append(otherStyleTime + ', ' + track['data']['info']['context'][i]['desc'])
             return '\n'.join(lst)
         elif(track['status']=='-5'):

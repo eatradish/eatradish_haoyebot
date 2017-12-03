@@ -9,7 +9,7 @@ moeFish_url = 'https://api.telegram.org/botTOKEN/setChatTitle'
 moeFish_dict = {'chat_id':'-1001125312504', 'title':'摸鱼'}
 
 def tadd(msg, title_info):
-    if title_info == moe_Fish_dict['title']:
+    if title_info == moeFish_dict['title']:
         moeFish_dict['title'] = moeFish_dict['title'] + ' - ' + msg
     else:
         moeFish_dict['title'] = moeFish_dict['title'] + ' - ' + msg + ' - ' + title_info[4:]

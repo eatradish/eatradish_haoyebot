@@ -3,17 +3,14 @@ import bot_feature
 from telegram import ParseMode
 from pprint import *
 import logging
+import shlex
 #logging.basicConfig(level=logging.DEBUG,
 #format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 TOKEN = 'TOKEN'
 
 def args_to_list(msg):
-    args_lst = msg.split()
-    for i in args_lst:
-        if ' ' in i:
-            i = i.replace(' ', '')
-    return args_lst
+    return shlex.split(msg)
 
 def msg_to_arg(msg):
     msg = replace_rub_str(msg)
@@ -122,6 +119,7 @@ def guess(bot, update):
 def decided(bot, update):
     msg = msg_to_arg(update.message.text)
     lst = args_to_list(msg)
+    print(lst)
     if len(lst) == 0 or len(lst) == 1:
         msg = '用法: /decided [选项 1][选项 2][选项 3]...'
     else:

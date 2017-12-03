@@ -3,4 +3,4 @@ import re
 from bot_feature import *
 
 if __name__ == '__main__':
-    print(kuaidi(sys.argv[1], sys.argv[2]))
+    print(miaow(sys.argv[1]))

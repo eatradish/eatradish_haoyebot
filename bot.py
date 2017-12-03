@@ -7,7 +7,8 @@ import shlex
 #logging.basicConfig(level=logging.DEBUG,
 #format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-TOKEN = 'TOKEN'
+TOKEN = ''
+
 def args_to_list(msg):
     return shlex.split(msg)
 
@@ -63,7 +64,6 @@ def tlen(bot, update):
 
 def miaow(bot, update):
     msg = bot_feature.miaow(update.message.text)
-    print('123')
     if msg != None:
         bot.sendMessage(chat_id = update.message.chat_id, text = msg)
 

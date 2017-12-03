@@ -86,13 +86,9 @@ def miaow(msg):
         artists = [a['name'] for a in [b for b in j['songs'][0]['artists']]]
         msgs.append(", ".join(artists))
         msgs.append(j['songs'][0]['album']['blurPicUrl'])
-        msgs.append("\n")
-        msgs.append("-")
-        msgs.append("\n")
+        msgs.append("--")
         ids = [id]
-        print(Netease.songs_detail_new_api(ids)[0])
-        msgs.append('320K:' + Netease.songs_detail_new_api(ids)[0]['url'])
-        print(msgs)
+        msgs.append('320K: ' + Netease.songs_detail_new_api(ids)[0]['url'])
         return "\n".join(msgs)
     else:
         return

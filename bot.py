@@ -1,15 +1,16 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, JobQueue
 import bot_feature
+from telegram import ParseMode
 from pprint import *
 import logging
+import shlex
 #logging.basicConfig(level=logging.DEBUG,
-                    #format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+#format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+TOKEN = 'TOKEN'
+
 def args_to_list(msg):
-    args_lst = msg.split()
-    for i in args_lst:
-        if ' ' in i:
-            i = i.replace(' ', '')
-    return args_lst
+    return shlex.split(msg)
 
 def msg_to_arg(msg):
     msg = replace_rub_str(msg)
@@ -64,35 +65,32 @@ def tlen(bot, update):
 def miaow(bot, update):
     msg = bot_feature.miaow(update.message.text)
     if msg != None:
-        bot.sendMessage(chat_id = update.message.chat_id, text = msg)
+        if type(msg) is dict:
+            bot.send_photo(chat_id = update.message.chat_id, photo = msg['photo'], caption = msg['msgs'])
+        else:
+            bot.sendMessage(chat_id = update.message.chat_id, text = msg)
 
 def bmi(bot, update):
     msg = msg_to_arg(update.message.text)
     lst = args_to_list(msg)
     if msg == '':
-        bot.sendMessage(chat_id = update.message.chat_id, text = "用法: /bmi [kg][space][cm] or [kg][space][m]")
+        bot.sendMessage(chat_id = update.message.chat_id, text = 'Syntax: ```/bmi <Weight in kilogram>kg {<Height in meter>m | <Height in centimeter>cm}```', parse_mode = ParseMode.MARKDOWN)
         return
     result = bot_feature.bmi(lst)
     update.message.reply_text(result)
 
 def kuaidi(bot, update):
     msg = msg_to_arg(update.message.text)
-    lst = args_to_list(msg)
     if msg == '':
         bot.sendMessage(chat_id = update.message.chat_id, text = "用法: /kuaidi + 运单号")
         return
-    try:
-        int(lst[0])
-        msg = bot_feature.kuaidi(lst[0])
-    except:
-        typ = lst[0]
-        num = lst[1]
-        msg = bot_feature.kuaidi(num, typ)
+    msg = int(msg)
+    msg = bot_feature.kuaidi(msg)
     update.message.reply_text(msg)
 
 def pixiv(bot, update):
     msg = bot_feature.pixiv()
-    bot.sendMessage(chat_id = update.message.chat_id, text = msg)
+    bot.send_photo(chat_id = update.message.chat_id, photo = msg, caption = msg)
 
 def couplet(bot, update):
     msg = msg_to_arg(update.message.text)
@@ -117,8 +115,21 @@ def whois(bot, update):
     msg = bot_feature.whois(msg)
     bot.sendMessage(chat_id = update.message.chat_id, text = msg)
 
+def guess(bot, update):
+    msg = bot_feature.guess()
+    update.message.reply_text(msg)
+
+def decided(bot, update):
+    msg = msg_to_arg(update.message.text)
+    lst = args_to_list(msg)
+    print(lst)
+    if len(lst) == 0 or len(lst) == 1:
+        msg = '用法: /decided "选项 1""选项 2""选项 3"...'
+    else:
+        msg = bot_feature.decided(lst)
+    update.message.reply_text(msg)
+
 if __name__ == '__main__':
-    TOKEN = ''
     updater = Updater(TOKEN)
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -142,6 +153,8 @@ if __name__ == '__main__':
     dp.add_handler(CommandHandler("pixiv", pixiv))
     dp.add_handler(CommandHandler("couplet", couplet))
     dp.add_handler(CommandHandler("cur", cur))
+    dp.add_handler(CommandHandler("guess", guess))
+    dp.add_handler(CommandHandler("decided", decided))
     #dp.add_handler(MessageHandler(Filters.text, qaq))
 
     # log all errors

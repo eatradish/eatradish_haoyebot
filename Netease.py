@@ -26,12 +26,12 @@ modulus = ('00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7'
            '3ece0462db0a22b8e7')
 nonce = '0CoJUm6Qyw8W8jud'
 pubKey = '010001'
-proxies = {
-        'http': 'socks5://127.0.0.1:1080',
-        'https': 'socks5://127.0.0.1:1080'
-        }
+#proxies = {
+#        'http': 'socks5://127.0.0.1:1080',
+#        'https': 'socks5://127.0.0.1:1080'
+#        }
 def songs_detail_new_api(music_ids, bit_rate=320000):
-    action = 'http://music.163.com/weapi/song/enhance/player/url?csrf_token='  # NOQA
+    action = 'http://balabala/weapi/song/enhance/player/url?csrf_token='  # NOQA
         #self.session.cookies.load()
         #csrf = ''
         #for cookie in self.session.cookies:
@@ -43,8 +43,7 @@ def songs_detail_new_api(music_ids, bit_rate=320000):
     data = {'ids': music_ids, 'br': bit_rate, 'csrf_token': ""}
     connection = requests.post(action,
                                data = encrypted_request(data),
-                               headers = header,
-                               proxies = proxies)
+                               headers = header)
     result = json.loads(connection.text)
     return result['data']
 

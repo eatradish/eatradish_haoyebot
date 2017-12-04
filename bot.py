@@ -7,7 +7,11 @@ import shlex
 #logging.basicConfig(level=logging.DEBUG,
 #format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
+<<<<<<< HEAD
 TOKEN = 'TOKEN'
+=======
+TOKEN = ''
+>>>>>>> 5a415adf8bc362b2394d7a1d587ea69a1fae6928
 
 def args_to_list(msg):
     return shlex.split(msg)

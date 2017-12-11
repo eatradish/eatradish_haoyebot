@@ -109,7 +109,7 @@ def kuaidi(msg):
 
 def pixiv():
     url = 'https://public-api.secure.pixiv.net/v1/ranking/all?image_sizes=px_128x128%2Cpx_480mw%2Clarge&include_stats=true&page=1&profile_image_sizes=px_170x170%2Cpx_50x50&mode=daily&include_sanity_level=true&per_page=50'
-    headers = {"Host": "public-api.secure.pixiv.net", "Authorization": "Bearer WHDWCGnwWA2C8PRfQSdXJxjXp0G6ULRaRkkd6t5B6h8", "Accept-Encoding": "gzip, deflate", "Accept": "*/*", "Accept-Language": "zh-cn", "Connection": "keep-alive", "Proxy-ConnectAion": "keep-alive", "User-Agent": "PixivIOSApp/5.6.0"}
+    headers = {"Host": "public-api.secure.pixiv.net", "Authorization": "Bearer WHDWCGnwWA2C8PRfQSdXJxjXp0G6ULRaRkkd6t5B6h8", "Accept-Encoding": "gzip, deflate", "Accept": "*/*", "Accept-Language": "zh-cn", "Connection": "keep-alive", "Proxy-ConnectAion": "keep-alive", "User-Agent": "PixivIOSApp/5.6.0", "Referer": "http://spapi.pixiv.net/"}
     r = requests.get(url, headers = headers)
     j = json.loads(r.text)
     num = random.randint(0, 49)

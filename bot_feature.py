@@ -112,10 +112,7 @@ def pixiv():
     headers = {"Host": "public-api.secure.pixiv.net", "Authorization": "Bearer WHDWCGnwWA2C8PRfQSdXJxjXp0G6ULRaRkkd6t5B6h8", "Accept-Encoding": "gzip, deflate", "Accept": "*/*", "Accept-Language": "zh-cn", "Connection": "keep-alive", "Proxy-ConnectAion": "keep-alive", "User-Agent": "PixivIOSApp/5.6.0"}
     r = requests.get(url, headers = headers)
     j = json.loads(r.text)
-    num = 0
-    num = int(random.random() * 100)
-    while num > 49:
-        num = int(random.random() * 100)
+    num = random.randint(0, 49)
     photo_url = j['response'][0]['works'][num]['work']['image_urls']['large']
     pixiv_url = 'https://www.pixiv.net/member_illust.php?mode=medium&illust_id={}'.format(urllib.parse.urlsplit(photo_url).path.split('/')[-1].replace('_p0.jpg', '').replace('_p0.png', ''))
     return {'photo': photo_url, 'pixiv': pixiv_url}

@@ -89,9 +89,13 @@ def miaow(msg):
         photo = j['songs'][0]['album']['blurPicUrl']
         msgs.append("--")
         ids = [id]
-        msgs.append('320K: ' + Netease.songs_detail_new_api(ids)[0]['url'])
-        msg = "\n".join(msgs)
-        return {'msgs': msg, 'photo': photo}
+        try:
+            msgs.append('320K: ' + Netease.songs_detail_new_api(ids)[0]['url'])
+        except:
+            pass
+        finally:
+            msg = "\n".join(msgs)
+            return {'msgs': msg, 'photo': photo}
     else:
         return
 

@@ -7,6 +7,7 @@ import express
 import shlex
 import urllib.parse
 import Netease
+import wikipedia
 
 moeFish_url = 'https://api.telegram.org/botTOKEN/setChatTitle'
 moeFish_dict = {'chat_id':'-1001125312504', 'title':'摸鱼'}
@@ -88,13 +89,9 @@ def miaow(msg):
         photo = j['songs'][0]['album']['blurPicUrl']
         msgs.append("--")
         ids = [id]
-        try:
-            msgs.append('320K: ' + Netease.songs_detail_new_api(ids)[0]['url'])
-        except:
-            pass
-        finally:
-            msg = "\n".join(msgs)
-            return {'msgs': msg, 'photo': photo}
+        msgs.append('320K: ' + Netease.songs_detail_new_api(ids)[0]['url'])
+        msg = "\n".join(msgs)
+        return {'msgs': msg, 'photo': photo}
     else:
         return
 
@@ -115,8 +112,9 @@ def pixiv():
     num = int(random.random() * 100)
     while num > 49:
         num = int(random.random() * 100)
-    msg = j['response'][0]['works'][num]['work']['image_urls']['large']
-    return msg
+    photo_url = j['response'][0]['works'][num]['work']['image_urls']['large']
+    pixiv_url = 'https://www.pixiv.net/member_illust.php?mode=medium&illust_id={}'.format(urllib.parse.urlsplit(photo_url).path.split('/')[-1].replace('_p0.jpg', '').replace('_p0.png', ''))
+    return {'photo': photo_url, 'pixiv': pixiv_url}
 
 def couplet(msg):
     url = 'https://ai-backend.binwang.me:5001/chat/couplet/' + msg
@@ -149,5 +147,23 @@ def decided(lst):
     else:
         return lst[random.randint(0, len(lst) - 1)]
 
+def wikipedia_summary(msg, lang = 'en'):
+    try:
+        if lang == 'en':
+            wikipedia.set_lang('en')
+        else:
+            wikipedia.set_lang(lang)
+        url = wikipedia.page(msg).url
+        msg = wikipedia.summary(msg)
+        fliter = []
+        for i in msg:
+            if i != '\n':
+                fliter.append(i)
+            else:
+                break
+        msg = "".join(fliter)
+        return msg + '\n' + url
+    except:
+        return "Not Found Page or LANG"
 
 

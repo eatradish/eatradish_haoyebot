@@ -7,11 +7,7 @@ import shlex
 #logging.basicConfig(level=logging.DEBUG,
 #format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-<<<<<<< HEAD
 TOKEN = 'TOKEN'
-=======
-TOKEN = ''
->>>>>>> 5a415adf8bc362b2394d7a1d587ea69a1fae6928
 
 def args_to_list(msg):
     return shlex.split(msg)
@@ -94,7 +90,7 @@ def kuaidi(bot, update):
 
 def pixiv(bot, update):
     msg = bot_feature.pixiv()
-    bot.send_photo(chat_id = update.message.chat_id, photo = msg, caption = msg)
+    bot.send_photo(chat_id = update.message.chat_id, photo = msg['photo'], caption = msg['pixiv'])
 
 def couplet(bot, update):
     msg = msg_to_arg(update.message.text)
@@ -133,6 +129,15 @@ def decided(bot, update):
         msg = bot_feature.decided(lst)
     update.message.reply_text(msg)
 
+def wikipedia_summary(bot, update):
+    msg = msg_to_arg(update.message.text)
+    msg = args_to_list(msg)
+    if len(msg) != 1:
+        msg = bot_feature.wikipedia_summary(msg[0], msg[1])
+    else:
+        msg = bot_feature.wikipedia_summary(msg)
+    bot.sendMessage(chat_id = update.message.chat_id, text = msg)
+
 if __name__ == '__main__':
     updater = Updater(TOKEN)
     # Get the dispatcher to register handlers
@@ -149,6 +154,7 @@ if __name__ == '__main__':
     dp.add_handler(CommandHandler("test", test))
     dp.add_handler(CommandHandler("tlen", tlen))
     dp.add_handler(CommandHandler("kuaidi", kuaidi))
+    dp.add_handler(CommandHandler("wikipedia_summary", wikipedia_summary))
     dp.add_handler(MessageHandler(Filters.text, miaow))
     #dp.add_handler(MessageHandler(Filters.text, moe))
     #dp.add_handler(MessageHandler(Filters.text, gum))

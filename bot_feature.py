@@ -95,7 +95,7 @@ def miaow(msg):
         msgs.append(", ".join(artists))
         photo = j['songs'][0]['album']['blurPicUrl']
         msgs.append("--")
-        ids = [mid]
+        ids = [mid[0]]
         try:
             msgs.append('320K: ' + Netease.songs_detail_new_api(ids)[0]['url'])
         except:

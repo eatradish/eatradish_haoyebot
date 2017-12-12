@@ -77,8 +77,15 @@ def miaow(msg):
         lst = list(filter(lambda x: 'music.163.com/song' in x, [i[0] for i in url_list]))
         s = "".join(lst)
         temp = urllib.parse.urlsplit(s)
-        id = temp.path.replace('/song/', '')
-        url = 'http://music.163.com/api/song/detail?ids=[' + id + ']'
+        mid_list = temp.path.split('/')
+        mid = []
+        for i in mid_list:
+            try:
+                int(i)
+                mid.append(i)
+            except:
+                pass
+        url = 'http://music.163.com/api/song/detail?ids=[' + mid[0] + ']'
         req = requests.get(url)
         j = json.loads(req.text)
         msgs = []
@@ -88,7 +95,7 @@ def miaow(msg):
         msgs.append(", ".join(artists))
         photo = j['songs'][0]['album']['blurPicUrl']
         msgs.append("--")
-        ids = [id]
+        ids = [mid]
         try:
             msgs.append('320K: ' + Netease.songs_detail_new_api(ids)[0]['url'])
         except:

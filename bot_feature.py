@@ -85,6 +85,11 @@ def miaow(msg):
                 mid.append(i)
             except:
                 pass
+        if len(mid) == 0:
+            try:
+                mid.append(temp.query.replace("id=", ""))
+            except:
+                pass
         url = 'http://music.163.com/api/song/detail?ids=[' + mid[0] + ']'
         req = requests.get(url)
         j = json.loads(req.text)
